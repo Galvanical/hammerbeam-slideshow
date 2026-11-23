@@ -17,19 +17,18 @@ To use this module, first add it to your config/west.yml by adding a new entry t
 ```yml
 manifest:
   remotes:
-      # zmk official
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: gpeye                         #new entry
-      url-base: https://github.com/GPeye  #new entry
+    - name: galvanical
+      url-base: https://github.com/Galvanical
   projects:
+    - name: hammerbeam-slideshow
+      remote: galvanical
+      revision: main
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: hammerbeam-slideshow          #new entry
-      remote: gpeye                       #new entry
-      revision: main                      #new entry
   self:
     path: config
 ```
