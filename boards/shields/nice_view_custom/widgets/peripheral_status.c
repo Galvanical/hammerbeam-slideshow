@@ -102,15 +102,22 @@ static void draw_top(lv_obj_t *widget, lv_color_t cbuf[], const struct status_st
     lv_draw_rect_dsc_t rect_black_dsc;
     init_rect_dsc(&rect_black_dsc, LVGL_BACKGROUND);
 
+    lv_area_t full_area = {0, 0, CANVAS_SIZE - 1, CANVAS_SIZE - 1};
+    lv_layer_t layer;
+
     // Fill background
-    lv_canvas_draw_rect(canvas, 0, 0, CANVAS_SIZE, CANVAS_SIZE, &rect_black_dsc);
+    lv_canvas_init_layer(canvas, &layer);
+    lv_draw_rect(&layer, &rect_black_dsc, &full_area);
+    lv_canvas_finish_layer(canvas, &layer);
 
     // Draw battery
     draw_battery(canvas, state);
 
     // Draw output status
-    lv_canvas_draw_text(canvas, 0, 0, CANVAS_SIZE, &label_dsc,
-                        state->connected ? LV_SYMBOL_WIFI : LV_SYMBOL_CLOSE);
+    label_dsc.text = state->connected ? LV_SYMBOL_WIFI : LV_SYMBOL_CLOSE;
+    lv_canvas_init_layer(canvas, &layer);
+    lv_draw_label(&layer, &label_dsc, &full_area);
+    lv_canvas_finish_layer(canvas, &layer);
 
     // Rotate canvas
     rotate_canvas(canvas, cbuf);
